@@ -131,16 +131,16 @@ public class DatosIniciales
         Producto insulina = crearProducto(cadena, "INS-NPH", "Insulina Humana NPH", "Insulina isófana", "100 UI/mL",
             FormaFarmaceutica.INYECTABLE, CategoriaRegulatoria.PRODUCTO_BIOLOGICO, CondicionVenta.CON_RECETA,
             Conservacion.REFRIGERADO, "Vial x 10 mL", 1, "Novo Nordisk", "BE-00871", "62.00");
-        Producto sales = crearProducto(cadena, "SRO-01", "Sales de Rehidratación Oral", "Cloruro de sodio, glucosa", "20.5 g",
+        Producto sales = crearProducto(cadena, "SRO-01", "Sales de Rehidratación Oral", "Cloruro de sodio, glucosa", "20,5 g",
             FormaFarmaceutica.SOLUCION_ORAL, CategoriaRegulatoria.MEDICAMENTO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Caja x 20 sobres", 20, "Farmindustria", "EN-01177", "2.50");
-        Producto formula = crearProducto(cadena, "FOR-1", "Fórmula Infantil Etapa 1", "Leche de inicio", "400 g",
+        Producto formula = crearProducto(cadena, "FOR-1", "Fórmula Infantil Etapa 1", "Leche de inicio", "",
             FormaFarmaceutica.OTRA, CategoriaRegulatoria.PRODUCTO_DIETETICO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Lata x 400 g", 1, "Nutricia", "PD-00456", "78.00");
         Producto tiras = crearProducto(cadena, "TIR-GLU", "Tiras Reactivas de Glucosa", "Glucosa oxidasa", "",
             FormaFarmaceutica.OTRA, CategoriaRegulatoria.DISPOSITIVO_MEDICO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Caja x 50 tiras", 50, "Accu-Check", "DM-07788", "3.00");
-        Producto bloqueador = crearProducto(cadena, "BLQ-50", "Bloqueador Solar FPS 50", "Óxido de zinc", "FPS 50",
+        Producto bloqueador = crearProducto(cadena, "BLQ-50", "Bloqueador Solar", "Óxido de zinc", "FPS 50",
             FormaFarmaceutica.SEMISOLIDO_TOPICO, CategoriaRegulatoria.PRODUCTO_SANITARIO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Frasco x 120 mL", 1, "Isdin", "PS-11223", "55.00");
 
@@ -201,7 +201,7 @@ public class DatosIniciales
 
         Producto paracetamol = crearParacetamol(esperanza);
         Producto amoxicilina = crearAmoxicilina(esperanza);
-        Producto bloqueador = crearProducto(esperanza, "BLQ-50", "Bloqueador Solar FPS 50", "Óxido de zinc", "FPS 50",
+        Producto bloqueador = crearProducto(esperanza, "BLQ-50", "Bloqueador Solar", "Óxido de zinc", "FPS 50",
             FormaFarmaceutica.SEMISOLIDO_TOPICO, CategoriaRegulatoria.PRODUCTO_SANITARIO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Frasco x 120 mL", 1, "Isdin", "PS-11223", "55.00");
 
@@ -223,7 +223,7 @@ public class DatosIniciales
 
     private Producto crearParacetamol(Empresa empresa) {
 
-        return crearProducto(empresa, "PAR-500", "Paracetamol 500", "Paracetamol", "500 mg",
+        return crearProducto(empresa, "PAR-500", "Paracetamol", "Paracetamol", "500 mg",
             FormaFarmaceutica.TABLETA, CategoriaRegulatoria.MEDICAMENTO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Caja x 100 tabletas", 100, "Portugal", "EN-02345", "0.50");
     }
@@ -231,7 +231,7 @@ public class DatosIniciales
 
     private Producto crearAmoxicilina(Empresa empresa) {
 
-        return crearProducto(empresa, "AMX-500", "Amoxicilina 500", "Amoxicilina", "500 mg",
+        return crearProducto(empresa, "AMX-500", "Amoxicilina", "Amoxicilina", "500 mg",
             FormaFarmaceutica.CAPSULA, CategoriaRegulatoria.MEDICAMENTO, CondicionVenta.CON_RECETA,
             Conservacion.AMBIENTE, "Caja x 100 cápsulas", 100, "Genfar", "EN-05678", "1.20");
     }

@@ -247,6 +247,7 @@ public class RecomendacionServiceImpl
         String motivo = lote.getMotivoBloqueo() == null ? "VENCIMIENTO" : lote.getMotivoBloqueo().name();
 
         recomendacion.setAccion(AccionRecomendada.BAJA);
+        recomendacion.setSinPrediccion(false);
         recomendacion.setUnidadesEnRiesgo(vendible);
         recomendacion.setJustificacion(
             "El lote está bloqueado (" + motivo + "): no se puede vender, transferir ni devolver. "

@@ -83,8 +83,8 @@ Los datos iniciales incluyen lotes en todos los niveles del semáforo (uno que v
 
 1. Landing page e inicio de sesión como `tecnico_miraflores`.
 2. **Panel:** el semáforo muestra lotes en rojo y uno en último día (S-301).
-3. **FEFO:** vender 10 *Paracetamol 500*: sale del lote P-101 (ROJO) con 25 % de descuento.
-4. **Cobertura:** vender *Amoxicilina 500* para 7 días: se omite el lote A-201 (vence en 3 días) y se explica por qué.
+3. **FEFO:** vender 10 *Paracetamol 500 mg*: sale del lote P-101 (ROJO) con 25 % de descuento.
+4. **Cobertura:** vender *Amoxicilina 500 mg* para 7 días: se omite el lote A-201 (vence en 3 días) y se explica por qué.
 5. **Último día:** vender *Sales de Rehidratación Oral*: la venta queda pendiente. Entrar como `qf_miraflores` → *Pendientes* → confirmar: aparece la advertencia "Debe usarse hoy".
 6. **Bloqueo:** en `/demo`, avanzar 1 día y ejecutar la revisión diaria: S-301 queda BLOQUEADO y ya no se vende.
 7. **IA:** en *IA*, la recomendación TRANSFERIR Ibuprofeno a San Juan de Lurigancho muestra sus números. Aceptarla crea la transferencia; recibirla como `tecnico_sjl`.
