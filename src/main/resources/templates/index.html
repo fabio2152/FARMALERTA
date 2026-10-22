@@ -22,50 +22,120 @@
     >
 
     <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
         rel="stylesheet"
         th:href="@{/css/styles.css}"
     >
 
 </head>
 
-<body>
+<body class="landing">
 
 <div th:replace="~{fragmentos/navbar :: navbar}"></div>
 
 
 <section class="hero">
 
-    <div class="container text-center">
+    <div class="container">
 
-        <h1 class="display-4 fw-bold">
-            Farmalerta
-        </h1>
+        <div class="row align-items-center g-5">
 
-        <p class="lead">
-            Controla cada lote por su fecha de vencimiento y recibe avisos a tiempo.
-        </p>
+            <div class="col-lg-6 text-center text-lg-start">
 
-        <p>
-            Ningún producto vencido llega al paciente.
-        </p>
+                <span class="hero-etiqueta">
+                    Control de vencimientos para farmacias
+                </span>
 
-        <a
-            class="btn btn-primary btn-lg"
-            th:href="@{/login}"
-        >
-            Iniciar sesión
-        </a>
+                <h1 class="hero-titulo">
+                    Farm<span>alerta</span>
+                </h1>
 
-        <a
-            class="btn btn-outline-success btn-lg"
-            th:href="@{/ofertas}"
-        >
-            Ver ofertas
-        </a>
+                <p class="hero-lead">
+                    Controla cada lote por su fecha de vencimiento y recibe avisos a tiempo.
+                </p>
+
+                <p class="hero-frase">
+                    Ningún producto vencido llega al paciente.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
+
+                    <a
+                        class="btn btn-farmalerta btn-lg"
+                        th:href="@{/login}"
+                    >
+                        Iniciar sesión
+                    </a>
+
+                    <a
+                        class="btn btn-farmalerta-borde btn-lg"
+                        th:href="@{/ofertas}"
+                    >
+                        Ver ofertas
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6 d-none d-md-block">
+
+                <div class="semaforo-demo">
+
+                    <div class="semaforo-demo-cabecera">
+                        <span>Semáforo de vencimientos</span>
+                        <span class="semaforo-demo-puntos"><i></i><i></i><i></i></span>
+                    </div>
+
+                    <div class="semaforo-demo-fila">
+                        <span class="punto punto-verde"></span>
+                        <span class="semaforo-demo-texto">Más de 90 días</span>
+                        <span class="nivel nivel-VERDE">VERDE</span>
+                    </div>
+
+                    <div class="semaforo-demo-fila">
+                        <span class="punto punto-amarillo"></span>
+                        <span class="semaforo-demo-texto">De 31 a 90 días</span>
+                        <span class="nivel nivel-AMARILLO">AMARILLO</span>
+                    </div>
+
+                    <div class="semaforo-demo-fila">
+                        <span class="punto punto-rojo"></span>
+                        <span class="semaforo-demo-texto">De 1 a 30 días</span>
+                        <span class="nivel nivel-ROJO">ROJO</span>
+                    </div>
+
+                    <div class="semaforo-demo-fila">
+                        <span class="punto punto-naranja"></span>
+                        <span class="semaforo-demo-texto">Vence hoy</span>
+                        <span class="nivel nivel-ULTIMO_DIA">ÚLTIMO DÍA</span>
+                    </div>
+
+                    <div class="semaforo-demo-fila">
+                        <span class="punto punto-gris"></span>
+                        <span class="semaforo-demo-texto">Vencido</span>
+                        <span class="nivel nivel-VENCIDO">BLOQUEADO</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </section>
+
+
+<footer class="pie">
+    © Farmalerta
+</footer>
 
 </body>
 

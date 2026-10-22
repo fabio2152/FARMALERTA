@@ -22,24 +22,39 @@
     >
 
     <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
         rel="stylesheet"
         th:href="@{/css/styles.css}"
     >
 
 </head>
 
-<body>
+<body class="landing">
 
 <div th:replace="~{fragmentos/navbar :: navbar}"></div>
 
 
-<div class="container py-5 login-caja">
+<section class="hero">
 
-    <div class="card shadow">
+    <div class="container">
 
-        <div class="card-body p-4">
+        <div class="login-tarjeta">
 
-            <h1 class="h3 mb-4 text-center">Iniciar sesión</h1>
+            <div class="text-center mb-4">
+
+                <h1 class="login-marca">
+                    Farm<span>alerta</span>
+                </h1>
+
+                <p class="login-subtitulo">
+                    Ingresa con tu cuenta para continuar
+                </p>
+
+            </div>
 
             <form
                 th:action="@{/login}"
@@ -48,14 +63,17 @@
 
                 <div class="mb-3">
 
-                    <label class="form-label">
+                    <label class="form-label login-etiqueta" for="nombreUsuario">
                         Usuario
                     </label>
 
                     <input
                         type="text"
-                        class="form-control"
+                        class="form-control form-control-lg login-campo"
+                        id="nombreUsuario"
                         name="nombreUsuario"
+                        placeholder="Tu usuario"
+                        autocomplete="username"
                         required
                         autofocus
                     >
@@ -63,16 +81,19 @@
                 </div>
 
 
-                <div class="mb-3">
+                <div class="mb-4">
 
-                    <label class="form-label">
+                    <label class="form-label login-etiqueta" for="contrasena">
                         Contraseña
                     </label>
 
                     <input
                         type="password"
-                        class="form-control"
+                        class="form-control form-control-lg login-campo"
+                        id="contrasena"
                         name="contrasena"
+                        placeholder="Tu contraseña"
+                        autocomplete="current-password"
                         required
                     >
 
@@ -81,18 +102,31 @@
 
                 <button
                     type="submit"
-                    class="btn btn-primary w-100"
+                    class="btn btn-farmalerta btn-lg w-100"
                 >
                     Ingresar
                 </button>
 
             </form>
 
+            <div class="text-center mt-4">
+
+                <a class="login-volver" th:href="@{/}">
+                    ← Volver al inicio
+                </a>
+
+            </div>
+
         </div>
 
     </div>
 
-</div>
+</section>
+
+
+<footer class="pie">
+    © Farmalerta
+</footer>
 
 </body>
 
