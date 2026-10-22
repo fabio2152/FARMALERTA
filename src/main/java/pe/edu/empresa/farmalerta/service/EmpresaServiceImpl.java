@@ -69,6 +69,9 @@ public class EmpresaServiceImpl
         validarEmpresa(empresa);
         validarSucursal(sucursal);
 
+        empresa.setId(null);
+        sucursal.setId(null);
+
         Empresa guardada = repository.save(empresa);
 
         configuracionRepository.save(crearConfiguracionPorDefecto(guardada));
@@ -92,6 +95,7 @@ public class EmpresaServiceImpl
 
         validarSucursal(sucursal);
 
+        sucursal.setId(null);
         sucursal.setEmpresa(obtenerPorId(empresaId));
 
         return sucursalRepository.save(sucursal);

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pe.edu.empresa.farmalerta.model.*;
 import pe.edu.empresa.farmalerta.service.AlertaService;
 import pe.edu.empresa.farmalerta.service.BajaService;
+import pe.edu.empresa.farmalerta.service.DevolucionService;
 import pe.edu.empresa.farmalerta.service.LoteService;
 import pe.edu.empresa.farmalerta.service.ProductoService;
 import pe.edu.empresa.farmalerta.service.ProveedorService;
@@ -31,6 +32,8 @@ public class LoteController {
 
     private final BajaService bajaService;
 
+    private final DevolucionService devolucionService;
+
     private final ProductoService productoService;
 
     private final ProveedorService proveedorService;
@@ -42,6 +45,7 @@ public class LoteController {
             LoteService service,
             AlertaService alertaService,
             BajaService bajaService,
+            DevolucionService devolucionService,
             ProductoService productoService,
             ProveedorService proveedorService,
             UsuarioService usuarioService
@@ -49,6 +53,7 @@ public class LoteController {
         this.service = service;
         this.alertaService = alertaService;
         this.bajaService = bajaService;
+        this.devolucionService = devolucionService;
         this.productoService = productoService;
         this.proveedorService = proveedorService;
         this.usuarioService = usuarioService;
@@ -185,6 +190,7 @@ public class LoteController {
             model.addAttribute("movimientos", service.movimientos(usuario, id));
             model.addAttribute("usuario", usuario);
             model.addAttribute("motivosBaja", MotivoBaja.values());
+            model.addAttribute("proveedores", proveedorService.listar(usuario));
 
             return "lotes/detalle";
 
@@ -216,6 +222,36 @@ public class LoteController {
             redirect.addFlashAttribute(
                 "mensaje",
                 "Baja registrada: " + baja.getCantidad() + " unidades, pérdida de S/ " + baja.getMontoTotal()
+            );
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirect.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/lotes/" + id;
+    }
+
+
+    @PostMapping("/{id}/devolucion")
+    public String devolver(
+            @PathVariable Long id,
+            @RequestParam(required = false) Integer cantidad,
+            @RequestParam(required = false) Long proveedorId,
+            HttpSession session,
+            RedirectAttributes redirect
+    ) {
+
+        Usuario usuario = usuarioService.obtenerUsuarioSesion(session);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            Movimiento devolucion = devolucionService.devolver(usuario, id, cantidad, proveedorId);
+            redirect.addFlashAttribute(
+                "mensaje",
+                "Devolución registrada: " + devolucion.getCantidad() + " unidades, valor recuperado S/ " + devolucion.getMontoTotal()
             );
 
         } catch (IllegalArgumentException | IllegalStateException e) {

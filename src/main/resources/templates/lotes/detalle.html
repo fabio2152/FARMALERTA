@@ -148,7 +148,71 @@
 
         </div>
 
-        <!-- MAS_ACCIONES -->
+        <div class="col-lg-4" th:if="${lote.estado.name() == 'DISPONIBLE'}">
+
+            <div class="card h-100 border-primary">
+
+                <div class="card-body">
+
+                    <h5>Devolver al proveedor</h5>
+
+                    <form th:action="@{/lotes/{id}/devolucion(id=${lote.id})}" method="post">
+
+                        <div class="mb-2">
+                            <label class="form-label">Proveedor</label>
+                            <select class="form-select" name="proveedorId">
+                                <option
+                                    th:each="p : ${proveedores}"
+                                    th:value="${p.id}"
+                                    th:text="${p.razonSocial + (p.aceptaCanje ? ' (canje desde ' + p.diasMinimosCanje + ' días)' : ' (no acepta canje)')}"
+                                    th:selected="${p.id == lote.proveedor.id}"
+                                ></option>
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Cantidad</label>
+                            <input
+                                type="number"
+                                min="1"
+                                class="form-control"
+                                name="cantidad"
+                                th:value="${lote.cantidadDisponible - lote.cantidadReservada}"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Devolver</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4" th:if="${lote.estado.name() == 'DISPONIBLE'}">
+
+            <div class="card h-100 border-success">
+
+                <div class="card-body">
+
+                    <h5>Transferir a otra sucursal</h5>
+
+                    <p class="small text-muted">
+                        Las unidades quedan reservadas hasta que la sucursal de destino las reciba.
+                    </p>
+
+                    <a class="btn btn-success" th:href="@{/transferencias/nueva(loteId=${lote.id})}">
+                        Solicitar transferencia
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
