@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+>
+
+<body>
+
+<div th:fragment="navbar">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" th:href="@{/}">
+                Farmalerta
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#menuPrincipal"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+
+                <ul
+                    class="navbar-nav me-auto"
+                    th:if="${session.usuario != null}"
+                    th:with="rol=${session.usuario.rol.name()}"
+                >
+
+                    <li class="nav-item" th:if="${rol == 'ADMIN_PLATAFORMA'}">
+                        <a class="nav-link" th:href="@{/empresas}">Empresas</a>
+                    </li>
+
+                    <th:block th:if="${rol != 'ADMIN_PLATAFORMA'}">
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/panel}">Panel</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/lotes}">Lotes</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/ventas}">Ventas</a>
+                        </li>
+
+                        <li class="nav-item" th:if="${rol == 'QUIMICO_FARMACEUTICO'}">
+                            <a class="nav-link" th:href="@{/ventas/pendientes}">Pendientes</a>
+                        </li>
+
+                        <li class="nav-item" th:if="${rol == 'GERENTE' or rol == 'QUIMICO_FARMACEUTICO'}">
+                            <a class="nav-link" th:href="@{/recomendaciones}">IA</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/transferencias}">Transferencias</a>
+                        </li>
+
+                        <li class="nav-item dropdown" th:if="${rol == 'GERENTE' or rol == 'QUIMICO_FARMACEUTICO'}">
+
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Gestión
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{/productos}">Productos</a></li>
+                                <li><a class="dropdown-item" th:href="@{/proveedores}">Proveedores</a></li>
+                                <li><a class="dropdown-item" th:href="@{/alertas}">Alertas sanitarias</a></li>
+                                <li><a class="dropdown-item" th:href="@{/reportes}">Reportes</a></li>
+                                <li th:if="${rol == 'GERENTE'}"><hr class="dropdown-divider"></li>
+                                <li th:if="${rol == 'GERENTE'}"><a class="dropdown-item" th:href="@{/usuarios}">Usuarios</a></li>
+                                <li th:if="${rol == 'GERENTE'}"><a class="dropdown-item" th:href="@{/configuracion}">Configuración</a></li>
+                            </ul>
+
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/notificaciones}">Notificaciones</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/demo}">Demo</a>
+                        </li>
+
+                    </th:block>
+
+                </ul>
+
+                <ul class="navbar-nav me-auto" th:if="${session.usuario == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/ofertas}">Ofertas</a>
+                    </li>
+                </ul>
+
+                <div
+                    class="d-flex align-items-center gap-2"
+                    th:if="${session.usuario != null}"
+                >
+
+                    <span class="navbar-text small text-light">
+                        <span th:text="${session.usuario.nombreCompleto}"></span>
+                        <span class="badge bg-secondary" th:text="${session.usuario.rol}"></span>
+                        <span
+                            th:if="${session.usuario.sucursal != null}"
+                            th:text="${'· ' + session.usuario.sucursal.nombre}"
+                        ></span>
+                    </span>
+
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-outline-light btn-sm">
+                            Salir
+                        </button>
+                    </form>
+
+                </div>
+
+                <a
+                    class="btn btn-outline-light btn-sm"
+                    th:if="${session.usuario == null}"
+                    th:href="@{/login}"
+                >
+                    Iniciar sesión
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="container mt-3">
+
+        <div
+            th:if="${mensaje}"
+            class="alert alert-success alert-dismissible fade show"
+        >
+            <span th:text="${mensaje}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div
+            th:if="${error}"
+            class="alert alert-danger alert-dismissible fade show"
+        >
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</div>
+
+</body>
+
+</html>

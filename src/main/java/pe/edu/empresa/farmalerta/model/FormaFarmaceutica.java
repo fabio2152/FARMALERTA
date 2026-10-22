@@ -1,0 +1,23 @@
+package pe.edu.empresa.farmalerta.model;
+
+
+public enum FormaFarmaceutica {
+
+    TABLETA,
+    CAPSULA,
+    POLVO_PARA_RECONSTITUIR,
+    JARABE,
+    SUSPENSION_ORAL,
+    SOLUCION_ORAL,
+    INYECTABLE,
+    SOLUCION_PARA_INFUSION,
+    SEMISOLIDO_TOPICO,
+    LIQUIDO_TOPICO,
+    OFTALMICO,
+    OTICO,
+    NASAL,
+    INHALADOR,
+    SUPOSITORIO_OVULO,
+    PARCHE_TRANSDERMICO,
+    OTRA
+}

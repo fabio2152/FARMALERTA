@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Farmalerta</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        th:href="@{/css/styles.css}"
+    >
+
+</head>
+
+<body>
+
+<div th:replace="~{fragmentos/navbar :: navbar}"></div>
+
+
+<section class="hero">
+
+    <div class="container text-center">
+
+        <h1 class="display-4 fw-bold">
+            Farmalerta
+        </h1>
+
+        <p class="lead">
+            Controla cada lote por su fecha de vencimiento, recibe avisos a tiempo
+            y deja que la Inteligencia Artificial te diga qué hacer con lo que está por vencer.
+        </p>
+
+        <p>
+            Ningún producto vencido llega al paciente.
+        </p>
+
+        <a
+            class="btn btn-primary btn-lg"
+            th:href="@{/login}"
+        >
+            Iniciar sesión
+        </a>
+
+        <a
+            class="btn btn-outline-success btn-lg"
+            th:href="@{/ofertas}"
+        >
+            Ver ofertas
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="container py-5">
+
+    <h2 class="mb-4 text-center">El problema</h2>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4>Pérdida económica</h4>
+                    <p>
+                        Los lotes vencen en el almacén sin que nadie lo note a tiempo
+                        para venderlos, devolverlos o moverlos a otro local.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4>Riesgo para la salud</h4>
+                    <p>
+                        Se dispensan medicamentos vencidos o que vencen en medio
+                        del tratamiento del paciente.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h4>Riesgo legal</h4>
+                    <p>
+                        Tener o vender productos vencidos es una infracción sanitaria
+                        y puede ser un delito.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 class="mb-4 text-center">La solución</h2>
+
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm border-success">
+                <div class="card-body">
+                    <h5>Semáforo de vencimientos</h5>
+                    <p>Verde, amarillo, rojo y último día para cada lote, revisado a diario.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm border-warning">
+                <div class="card-body">
+                    <h5>Venta FEFO</h5>
+                    <p>Se vende primero lo que vence primero, con descuentos y advertencias.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm border-danger">
+                <div class="card-body">
+                    <h5>Bloqueo automático</h5>
+                    <p>Lo vencido y lo retirado por alerta sanitaria no se puede vender.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body">
+                    <h5>Inteligencia Artificial</h5>
+                    <p>Predice la demanda y recomienda transferir, devolver, rebajar o dar de baja.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+
+</html>
