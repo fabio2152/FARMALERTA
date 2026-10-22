@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Lotes</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        th:href="@{/css/styles.css}"
+    >
+
+</head>
+
+<body>
+
+<div th:replace="~{fragmentos/navbar :: navbar}"></div>
+
+
+<div class="container py-4">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+
+        <h1>Lotes</h1>
+
+        <a
+            th:if="${session.usuario.rol.name() == 'TECNICO' or session.usuario.rol.name() == 'QUIMICO_FARMACEUTICO'}"
+            class="btn btn-primary"
+            th:href="@{/lotes/nuevo}"
+        >
+            Ingresar lote
+        </a>
+
+    </div>
+
+
+    <form th:action="@{/lotes}" method="get" class="row g-2 mb-3">
+
+        <div class="col-md-4">
+            <select class="form-select" name="nivel">
+                <option value="">Todos los niveles</option>
+                <option
+                    th:each="n : ${opcionesNivel}"
+                    th:value="${n}"
+                    th:text="${n}"
+                    th:selected="${n == nivelSeleccionado}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <select class="form-select" name="estado">
+                <option value="">Activos (disponibles y bloqueados)</option>
+                <option
+                    th:each="e : ${opcionesEstado}"
+                    th:value="${e}"
+                    th:text="${e}"
+                    th:selected="${e == estadoSeleccionado}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-outline-primary w-100">Filtrar</button>
+        </div>
+
+    </form>
+
+
+    <div class="table-responsive" th:with="mostrarSucursal=${session.usuario.rol.name() == 'GERENTE'}">
+
+        <table class="table table-striped table-hover align-middle">
+
+            <thead>
+            <tr>
+                <th>Lote</th>
+                <th>Producto</th>
+                <th th:if="${mostrarSucursal}">Sucursal</th>
+                <th>Vence</th>
+                <th>Días</th>
+                <th>Nivel</th>
+                <th>Estado</th>
+                <th>Vendible</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="lote : ${lotes}">
+                <td>
+                    <a th:href="@{/lotes/{id}(id=${lote.id})}" th:text="${lote.numeroLote}"></a>
+                </td>
+                <td th:text="${lote.producto.nombreComercial + ' ' + lote.producto.concentracion}"></td>
+                <td th:if="${mostrarSucursal}" th:text="${lote.sucursal.nombre}"></td>
+                <td th:text="${#temporals.format(lote.fechaVencimiento, 'dd/MM/yyyy')}"></td>
+                <td th:text="${dias[lote.id]}"></td>
+                <td>
+                    <span th:class="${'nivel nivel-' + niveles[lote.id]}" th:text="${niveles[lote.id]}"></span>
+                </td>
+                <td th:text="${lote.estado}"></td>
+                <td th:text="${lote.cantidadDisponible - lote.cantidadReservada}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div th:if="${#lists.isEmpty(lotes)}" class="alert alert-info">
+        No hay lotes con ese filtro.
+    </div>
+
+</div>
+
+</body>
+
+</html>

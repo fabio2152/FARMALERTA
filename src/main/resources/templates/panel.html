@@ -35,7 +35,119 @@
 
 <div class="container py-4">
 
-    <h1 th:text="${'Bienvenido, ' + usuario.nombreCompleto}"></h1>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="mb-0">Semáforo de vencimientos</h1>
+            <p class="text-muted mb-0">
+                <span th:each="s, it : ${sucursales}" th:text="${s.nombre + (it.last ? '' : ' · ')}"></span>
+                — hoy <strong th:text="${#temporals.format(hoy, 'dd/MM/yyyy')}"></strong>
+            </p>
+        </div>
+
+        <a
+            th:if="${usuario.rol.name() == 'TECNICO' or usuario.rol.name() == 'QUIMICO_FARMACEUTICO'}"
+            class="btn btn-primary"
+            th:href="@{/lotes/nuevo}"
+        >
+            Ingresar lote
+        </a>
+
+    </div>
+
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-6 col-md" th:each="c : ${contadores}">
+            <a class="text-decoration-none" th:href="@{/lotes(nivel=${c.key})}">
+                <div th:class="${'card tarjeta-nivel shadow-sm nivel-' + c.key}">
+                    <div class="card-body">
+                        <div class="numero" th:text="${c.value}"></div>
+                        <div th:text="${c.key == T(pe.edu.empresa.farmalerta.model.NivelAlerta).ULTIMO_DIA ? 'ÚLTIMO DÍA' : c.key}"></div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md">
+            <a class="text-decoration-none" th:href="@{/lotes(estado='BLOQUEADO')}">
+                <div class="card tarjeta-nivel shadow-sm nivel-VENCIDO">
+                    <div class="card-body">
+                        <div class="numero" th:text="${bloqueados}"></div>
+                        <div>BLOQUEADOS</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <h4>Lotes más próximos a vencer</h4>
+
+            <div class="table-responsive" th:with="mostrarSucursal=${#lists.size(sucursales) > 1}">
+
+                <table class="table table-sm table-hover align-middle">
+
+                    <thead>
+                    <tr>
+                        <th>Lote</th>
+                        <th>Producto</th>
+                        <th th:if="${mostrarSucursal}">Sucursal</th>
+                        <th>Vence</th>
+                        <th>Días</th>
+                        <th>Nivel</th>
+                        <th>Estado</th>
+                        <th>Vendible</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="lote : ${lotes}">
+                <td>
+                    <a th:href="@{/lotes/{id}(id=${lote.id})}" th:text="${lote.numeroLote}"></a>
+                </td>
+                <td th:text="${lote.producto.nombreComercial + ' ' + lote.producto.concentracion}"></td>
+                <td th:if="${mostrarSucursal}" th:text="${lote.sucursal.nombre}"></td>
+                <td th:text="${#temporals.format(lote.fechaVencimiento, 'dd/MM/yyyy')}"></td>
+                <td th:text="${dias[lote.id]}"></td>
+                <td>
+                    <span th:class="${'nivel nivel-' + niveles[lote.id]}" th:text="${niveles[lote.id]}"></span>
+                </td>
+                <td th:text="${lote.estado}"></td>
+                <td th:text="${lote.cantidadDisponible - lote.cantidadReservada}"></td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <h4>Notificaciones sin leer</h4>
+
+            <div th:if="${notificaciones == null or #lists.isEmpty(notificaciones)}" class="alert alert-light border">
+                No hay notificaciones nuevas.
+            </div>
+
+            <ul class="list-group" th:if="${notificaciones != null}">
+                <li class="list-group-item" th:each="n : ${notificaciones}">
+                    <span th:class="${'nivel nivel-' + n.nivel}" th:text="${n.nivel}"></span>
+                    <small class="text-muted" th:text="${#temporals.format(n.fecha, 'dd/MM')}"></small>
+                    <div class="small mt-1" th:text="${n.mensaje}"></div>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
 
 </div>
 
