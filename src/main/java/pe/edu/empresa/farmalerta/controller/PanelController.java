@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import pe.edu.empresa.farmalerta.model.Rol;
 import pe.edu.empresa.farmalerta.model.Usuario;
 import pe.edu.empresa.farmalerta.service.UsuarioService;
 
@@ -33,6 +34,10 @@ public class PanelController {
 
         if (usuario == null) {
             return "redirect:/login";
+        }
+
+        if (usuario.getRol() == Rol.ADMIN_PLATAFORMA) {
+            return "redirect:/empresas";
         }
 
         model.addAttribute("usuario", usuario);

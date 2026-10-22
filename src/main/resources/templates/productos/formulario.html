@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html
+    lang="es"
+    xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>Producto</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        th:href="@{/css/styles.css}"
+    >
+
+</head>
+
+<body>
+
+<div th:replace="~{fragmentos/navbar :: navbar}"></div>
+
+
+<div class="container py-4">
+
+    <h1 th:text="${producto.id == null} ? 'Nuevo producto' : 'Editar producto'"></h1>
+
+    <form
+        th:object="${producto}"
+        th:action="${producto.id == null} ? @{/productos} : @{/productos/{id}(id=${producto.id})}"
+        method="post"
+    >
+
+        <div class="row g-3">
+
+            <div class="col-md-3">
+                <label class="form-label">Código</label>
+                <input type="text" class="form-control" th:field="*{codigo}" th:readonly="${producto.id != null}" required>
+            </div>
+
+            <div class="col-md-5">
+                <label class="form-label">Nombre comercial</label>
+                <input type="text" class="form-control" th:field="*{nombreComercial}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Principio activo</label>
+                <input type="text" class="form-control" th:field="*{principioActivo}" required>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Concentración</label>
+                <input type="text" class="form-control" th:field="*{concentracion}">
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Forma farmacéutica</label>
+                <select class="form-select" th:field="*{formaFarmaceutica}" required>
+                    <option th:each="f : ${formas}" th:value="${f}" th:text="${f}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Categoría regulatoria</label>
+                <select class="form-select" th:field="*{categoriaRegulatoria}" required>
+                    <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Condición de venta</label>
+                <select class="form-select" th:field="*{condicionVenta}" required>
+                    <option th:each="c : ${condiciones}" th:value="${c}" th:text="${c}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Conservación</label>
+                <select class="form-select" th:field="*{conservacion}" required>
+                    <option th:each="c : ${conservaciones}" th:value="${c}" th:text="${c}"></option>
+                </select>
+            </div>
+
+            <div class="col-md-5">
+                <label class="form-label">Presentación</label>
+                <input type="text" class="form-control" th:field="*{presentacion}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Unidades mínimas por empaque</label>
+                <input type="number" min="1" class="form-control" th:field="*{unidadesPorEmpaque}" required>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Laboratorio</label>
+                <input type="text" class="form-control" th:field="*{laboratorio}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Registro sanitario</label>
+                <input type="text" class="form-control" th:field="*{registroSanitario}">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Precio de venta por unidad (S/)</label>
+                <input type="number" step="0.01" min="0.01" class="form-control" th:field="*{precioVenta}" required>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Umbral AMARILLO propio (opcional)</label>
+                <input type="number" class="form-control" th:field="*{umbralAmarilloPropio}">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Umbral ROJO propio (opcional)</label>
+                <input type="number" class="form-control" th:field="*{umbralRojoPropio}">
+            </div>
+
+        </div>
+
+        <div class="mt-4">
+
+            <button type="submit" class="btn btn-success">Guardar</button>
+
+            <a class="btn btn-secondary" th:href="@{/productos}">Cancelar</a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
