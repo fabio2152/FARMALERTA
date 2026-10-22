@@ -84,132 +84,76 @@ public class DatosIniciales
             new Usuario("admin", "Administrador de la plataforma", "admin@farmalerta.pe", CLAVE, Rol.ADMIN_PLATAFORMA, null, null, true)
         );
 
-        cargarCadena(admin);
-        cargarIndependiente(admin);
+        cargarEmpresa(admin);
 
         revisionDiariaService.ejecutar();
     }
 
 
-    private void cargarCadena(Usuario admin) {
+    private void cargarEmpresa(Usuario admin) {
 
-        Empresa cadena = empresaService.registrar(
+        Empresa empresa = empresaService.registrar(
             admin,
             new Empresa("Boticas Salud Total S.A.C.", "20601234567"),
-            new Sucursal(null, "Miraflores", "Av. José Larco 345", "Miraflores"),
-            new Usuario("gerente1", "Carla Mendoza (Gerente)", "gerente@saludtotal.pe", CLAVE, null, null, null, true)
+            new Sucursal(null, "Sede Principal", "Av. Arequipa 1250", "Lima"),
+            new Usuario("gerente", "Carla Mendoza (Gerente)", "gerente@saludtotal.pe", CLAVE, null, null, null, true)
         );
 
-        Sucursal miraflores = empresaService.listarSucursales(cadena.getId()).get(0);
+        Sucursal sucursal = empresaService.listarSucursales(empresa.getId()).get(0);
 
-        Sucursal sjl = empresaService.agregarSucursal(
-            admin,
-            cadena.getId(),
-            new Sucursal(null, "San Juan de Lurigancho", "Av. Próceres de la Independencia 1520", "San Juan de Lurigancho")
-        );
-
-        crearUsuario("qf_miraflores", "Q.F. Luis Paredes", Rol.QUIMICO_FARMACEUTICO, cadena, miraflores);
-        Usuario tecMir = crearUsuario("tecnico_miraflores", "Téc. Ana Quispe", Rol.TECNICO, cadena, miraflores);
-        crearUsuario("qf_sjl", "Q.F. Rosa Huamán", Rol.QUIMICO_FARMACEUTICO, cadena, sjl);
-        Usuario tecSjl = crearUsuario("tecnico_sjl", "Téc. Jorge Ramos", Rol.TECNICO, cadena, sjl);
+        crearUsuario("qf", "Q.F. Luis Paredes", Rol.QUIMICO_FARMACEUTICO, empresa, sucursal);
+        Usuario tecnico = crearUsuario("tecnico", "Téc. Ana Quispe", Rol.TECNICO, empresa, sucursal);
 
         Proveedor andina = proveedorRepository.save(
-            new Proveedor(cadena, "Droguería Andina S.A.", "20512345678", true, 90, new BigDecimal("100.00"))
+            new Proveedor(empresa, "Droguería Andina S.A.", "20512345678", true, 90, new BigDecimal("100.00"))
         );
         Proveedor lima = proveedorRepository.save(
-            new Proveedor(cadena, "Distribuidora Lima S.A.C.", "20598765432", false, 90, new BigDecimal("100.00"))
+            new Proveedor(empresa, "Distribuidora Lima S.A.C.", "20598765432", false, 90, new BigDecimal("100.00"))
         );
 
-        Producto paracetamol = crearParacetamol(cadena);
-        Producto amoxicilina = crearAmoxicilina(cadena);
-        Producto ibuprofeno = crearProducto(cadena, "IBU-100", "Ibuprofeno Kids", "Ibuprofeno", "100 mg/5 mL",
+        Producto paracetamol = crearParacetamol(empresa);
+        Producto amoxicilina = crearAmoxicilina(empresa);
+        Producto ibuprofeno = crearProducto(empresa, "IBU-100", "Ibuprofeno Kids", "Ibuprofeno", "100 mg/5 mL",
             FormaFarmaceutica.SUSPENSION_ORAL, CategoriaRegulatoria.MEDICAMENTO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Frasco x 60 mL", 1, "Laboratorios Unidos", "EN-04512", "12.50");
-        Producto amoxPolvo = crearProducto(cadena, "AMX-250", "Amoxicilina Suspensión", "Amoxicilina", "250 mg/5 mL",
+        Producto amoxPolvo = crearProducto(empresa, "AMX-250", "Amoxicilina Suspensión", "Amoxicilina", "250 mg/5 mL",
             FormaFarmaceutica.POLVO_PARA_RECONSTITUIR, CategoriaRegulatoria.MEDICAMENTO, CondicionVenta.CON_RECETA,
             Conservacion.AMBIENTE, "Frasco x 60 mL", 1, "Medifarma", "EN-03321", "14.50");
-        Producto insulina = crearProducto(cadena, "INS-NPH", "Insulina Humana NPH", "Insulina isófana", "100 UI/mL",
+        Producto insulina = crearProducto(empresa, "INS-NPH", "Insulina Humana NPH", "Insulina isófana", "100 UI/mL",
             FormaFarmaceutica.INYECTABLE, CategoriaRegulatoria.PRODUCTO_BIOLOGICO, CondicionVenta.CON_RECETA,
             Conservacion.REFRIGERADO, "Vial x 10 mL", 1, "Novo Nordisk", "BE-00871", "62.00");
-        Producto sales = crearProducto(cadena, "SRO-01", "Sales de Rehidratación Oral", "Cloruro de sodio, glucosa", "20,5 g",
+        Producto sales = crearProducto(empresa, "SRO-01", "Sales de Rehidratación Oral", "Cloruro de sodio, glucosa", "20,5 g",
             FormaFarmaceutica.SOLUCION_ORAL, CategoriaRegulatoria.MEDICAMENTO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Caja x 20 sobres", 20, "Farmindustria", "EN-01177", "2.50");
-        Producto formula = crearProducto(cadena, "FOR-1", "Fórmula Infantil Etapa 1", "Leche de inicio", "",
+        Producto formula = crearProducto(empresa, "FOR-1", "Fórmula Infantil Etapa 1", "Leche de inicio", "",
             FormaFarmaceutica.OTRA, CategoriaRegulatoria.PRODUCTO_DIETETICO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Lata x 400 g", 1, "Nutricia", "PD-00456", "78.00");
-        Producto tiras = crearProducto(cadena, "TIR-GLU", "Tiras Reactivas de Glucosa", "Glucosa oxidasa", "",
+        Producto tiras = crearProducto(empresa, "TIR-GLU", "Tiras Reactivas de Glucosa", "Glucosa oxidasa", "",
             FormaFarmaceutica.OTRA, CategoriaRegulatoria.DISPOSITIVO_MEDICO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Caja x 50 tiras", 50, "Accu-Check", "DM-07788", "3.00");
-        Producto bloqueador = crearProducto(cadena, "BLQ-50", "Bloqueador Solar", "Óxido de zinc", "FPS 50",
+        Producto bloqueador = crearProducto(empresa, "BLQ-50", "Bloqueador Solar", "Óxido de zinc", "FPS 50",
             FormaFarmaceutica.SEMISOLIDO_TOPICO, CategoriaRegulatoria.PRODUCTO_SANITARIO, CondicionVenta.SIN_RECETA,
             Conservacion.AMBIENTE, "Frasco x 120 mL", 1, "Isdin", "PS-11223", "55.00");
 
-        crearLote(paracetamol, miraflores, andina, "P-101", 20, 30, "0.20", tecMir);
-        crearLote(paracetamol, miraflores, andina, "P-102", 150, 200, "0.20", tecMir);
-        crearLote(amoxicilina, miraflores, andina, "A-201", 3, 12, "0.45", tecMir);
-        crearLote(amoxicilina, miraflores, lima, "A-202", 60, 100, "0.45", tecMir);
-        crearLote(ibuprofeno, miraflores, andina, "I-501", 40, 120, "6.00", tecMir);
-        crearLote(amoxPolvo, miraflores, andina, "X-901", 130, 30, "6.50", tecMir);
-        crearLote(insulina, miraflores, andina, "N-601", 75, 20, "35.00", tecMir);
-        crearLote(sales, miraflores, lima, "S-301", 0, 10, "1.20", tecMir);
-        crearLote(sales, miraflores, lima, "S-302", 45, 150, "1.20", tecMir);
-        crearLote(formula, miraflores, lima, "F-401", -2, 12, "45.00", tecMir);
-        crearLote(tiras, miraflores, lima, "T-801", 25, 40, "1.60", tecMir);
-        crearLote(bloqueador, miraflores, andina, "B-701", 100, 200, "28.00", tecMir);
+        crearLote(paracetamol, sucursal, andina, "P-101", 20, 30, "0.20", tecnico);
+        crearLote(paracetamol, sucursal, andina, "P-102", 150, 200, "0.20", tecnico);
+        crearLote(amoxicilina, sucursal, andina, "A-201", 3, 12, "0.45", tecnico);
+        crearLote(amoxicilina, sucursal, lima, "A-202", 60, 100, "0.45", tecnico);
+        crearLote(ibuprofeno, sucursal, andina, "I-501", 40, 120, "6.00", tecnico);
+        crearLote(amoxPolvo, sucursal, andina, "X-901", 130, 30, "6.50", tecnico);
+        crearLote(insulina, sucursal, andina, "N-601", 75, 20, "35.00", tecnico);
+        crearLote(sales, sucursal, lima, "S-301", 0, 10, "1.20", tecnico);
+        crearLote(sales, sucursal, lima, "S-302", 45, 150, "1.20", tecnico);
+        crearLote(formula, sucursal, lima, "F-401", -2, 12, "45.00", tecnico);
+        crearLote(tiras, sucursal, lima, "T-801", 25, 40, "1.60", tecnico);
+        crearLote(bloqueador, sucursal, andina, "B-701", 100, 200, "28.00", tecnico);
 
-        crearLote(paracetamol, sjl, andina, "P-111", 200, 300, "0.20", tecSjl);
-        crearLote(amoxicilina, sjl, andina, "A-211", 85, 50, "0.45", tecSjl);
-        crearLote(ibuprofeno, sjl, andina, "I-511", 200, 20, "6.00", tecSjl);
-        crearLote(insulina, sjl, andina, "N-601", 75, 15, "35.00", tecSjl);
-        crearLote(sales, sjl, lima, "S-311", 180, 150, "1.20", tecSjl);
-        crearLote(formula, sjl, lima, "F-411", 10, 8, "45.00", tecSjl);
-
-        crearHistorial(paracetamol, miraflores, andina, tecMir, 8);
-        crearHistorial(amoxicilina, miraflores, andina, tecMir, 3);
-        crearHistorial(ibuprofeno, miraflores, andina, tecMir, 2);
-        crearHistorial(insulina, miraflores, andina, tecMir, 1);
-        crearHistorial(sales, miraflores, lima, tecMir, 2);
-        crearHistorial(bloqueador, miraflores, andina, tecMir, 1);
-
-        crearHistorial(paracetamol, sjl, andina, tecSjl, 10);
-        crearHistorial(amoxicilina, sjl, andina, tecSjl, 4);
-        crearHistorial(ibuprofeno, sjl, andina, tecSjl, 6);
-        crearHistorial(sales, sjl, lima, tecSjl, 3);
-    }
-
-
-    private void cargarIndependiente(Usuario admin) {
-
-        Empresa esperanza = empresaService.registrar(
-            admin,
-            new Empresa("Botica La Esperanza E.I.R.L.", "20487654321"),
-            new Sucursal(null, "La Esperanza", "Jr. Los Olivos 120", "Comas"),
-            new Usuario("gerente_esperanza", "Pedro Salazar (Gerente)", "gerente@laesperanza.pe", CLAVE, null, null, null, true)
-        );
-
-        Sucursal sucursal = empresaService.listarSucursales(esperanza.getId()).get(0);
-
-        crearUsuario("qf_esperanza", "Q.F. Elena Torres", Rol.QUIMICO_FARMACEUTICO, esperanza, sucursal);
-        Usuario tecnico = crearUsuario("tecnico_esperanza", "Téc. Miguel Flores", Rol.TECNICO, esperanza, sucursal);
-
-        Proveedor andina = proveedorRepository.save(
-            new Proveedor(esperanza, "Droguería Andina S.A.", "20512345678", true, 90, new BigDecimal("100.00"))
-        );
-        proveedorRepository.save(
-            new Proveedor(esperanza, "Distribuidora Lima S.A.C.", "20598765432", false, 90, new BigDecimal("100.00"))
-        );
-
-        Producto paracetamol = crearParacetamol(esperanza);
-        Producto amoxicilina = crearAmoxicilina(esperanza);
-        Producto bloqueador = crearProducto(esperanza, "BLQ-50", "Bloqueador Solar", "Óxido de zinc", "FPS 50",
-            FormaFarmaceutica.SEMISOLIDO_TOPICO, CategoriaRegulatoria.PRODUCTO_SANITARIO, CondicionVenta.SIN_RECETA,
-            Conservacion.AMBIENTE, "Frasco x 120 mL", 1, "Isdin", "PS-11223", "55.00");
-
-        crearLote(paracetamol, sucursal, andina, "P-121", 15, 40, "0.20", tecnico);
-        crearLote(amoxicilina, sucursal, andina, "A-221", 25, 30, "0.45", tecnico);
-        crearLote(bloqueador, sucursal, andina, "B-721", 50, 10, "28.00", tecnico);
-
-        crearHistorial(paracetamol, sucursal, andina, tecnico, 5);
+        crearHistorial(paracetamol, sucursal, andina, tecnico, 8);
+        crearHistorial(amoxicilina, sucursal, andina, tecnico, 3);
+        crearHistorial(ibuprofeno, sucursal, andina, tecnico, 2);
+        crearHistorial(insulina, sucursal, andina, tecnico, 1);
+        crearHistorial(sales, sucursal, lima, tecnico, 2);
+        crearHistorial(bloqueador, sucursal, andina, tecnico, 1);
     }
 
 
