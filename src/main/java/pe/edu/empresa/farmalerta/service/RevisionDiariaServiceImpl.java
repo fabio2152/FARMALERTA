@@ -23,15 +23,19 @@ public class RevisionDiariaServiceImpl
 
     private final NotificacionService notificacionService;
 
+    private final RecomendacionService recomendacionService;
+
 
     public RevisionDiariaServiceImpl(
             LoteRepository loteRepository,
             AlertaService alertaService,
-            NotificacionService notificacionService
+            NotificacionService notificacionService,
+            RecomendacionService recomendacionService
     ) {
         this.loteRepository = loteRepository;
         this.alertaService = alertaService;
         this.notificacionService = notificacionService;
+        this.recomendacionService = recomendacionService;
     }
 
 
@@ -69,7 +73,9 @@ public class RevisionDiariaServiceImpl
             }
         }
 
-        return "Revisión diaria: " + bloqueados + " lotes bloqueados por vencimiento y "
-            + notificaciones + " notificaciones nuevas.";
+        int recomendaciones = recomendacionService.generarTodas();
+
+        return "Revisión diaria: " + bloqueados + " lotes bloqueados por vencimiento, "
+            + notificaciones + " notificaciones nuevas y " + recomendaciones + " recomendaciones actualizadas.";
     }
 }
