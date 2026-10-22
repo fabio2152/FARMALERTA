@@ -15,6 +15,7 @@ import pe.edu.empresa.farmalerta.repository.ProveedorRepository;
 import pe.edu.empresa.farmalerta.repository.UsuarioRepository;
 import pe.edu.empresa.farmalerta.service.EmpresaService;
 import pe.edu.empresa.farmalerta.service.FechaService;
+import pe.edu.empresa.farmalerta.service.RevisionDiariaService;
 import pe.edu.empresa.farmalerta.service.UsuarioService;
 
 
@@ -40,6 +41,8 @@ public class DatosIniciales
 
     private final FechaService fechaService;
 
+    private final RevisionDiariaService revisionDiariaService;
+
     private final Random aleatorio = new Random(42);
 
     private LocalDate hoy;
@@ -53,7 +56,8 @@ public class DatosIniciales
             MovimientoRepository movimientoRepository,
             UsuarioService usuarioService,
             EmpresaService empresaService,
-            FechaService fechaService
+            FechaService fechaService,
+            RevisionDiariaService revisionDiariaService
     ) {
         this.usuarioRepository = usuarioRepository;
         this.productoRepository = productoRepository;
@@ -63,6 +67,7 @@ public class DatosIniciales
         this.usuarioService = usuarioService;
         this.empresaService = empresaService;
         this.fechaService = fechaService;
+        this.revisionDiariaService = revisionDiariaService;
     }
 
 
@@ -81,6 +86,8 @@ public class DatosIniciales
 
         cargarCadena(admin);
         cargarIndependiente(admin);
+
+        revisionDiariaService.ejecutar();
     }
 
 

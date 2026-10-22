@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.empresa.farmalerta.model.*;
 import pe.edu.empresa.farmalerta.service.AlertaService;
+import pe.edu.empresa.farmalerta.service.BajaService;
 import pe.edu.empresa.farmalerta.service.LoteService;
 import pe.edu.empresa.farmalerta.service.ProductoService;
 import pe.edu.empresa.farmalerta.service.ProveedorService;
@@ -28,6 +29,8 @@ public class LoteController {
 
     private final AlertaService alertaService;
 
+    private final BajaService bajaService;
+
     private final ProductoService productoService;
 
     private final ProveedorService proveedorService;
@@ -38,12 +41,14 @@ public class LoteController {
     public LoteController(
             LoteService service,
             AlertaService alertaService,
+            BajaService bajaService,
             ProductoService productoService,
             ProveedorService proveedorService,
             UsuarioService usuarioService
     ) {
         this.service = service;
         this.alertaService = alertaService;
+        this.bajaService = bajaService;
         this.productoService = productoService;
         this.proveedorService = proveedorService;
         this.usuarioService = usuarioService;
@@ -179,6 +184,7 @@ public class LoteController {
             model.addAttribute("diasRestantes", alertaService.diasRestantes(lote));
             model.addAttribute("movimientos", service.movimientos(usuario, id));
             model.addAttribute("usuario", usuario);
+            model.addAttribute("motivosBaja", MotivoBaja.values());
 
             return "lotes/detalle";
 
@@ -186,5 +192,36 @@ public class LoteController {
             redirect.addFlashAttribute("error", e.getMessage());
             return "redirect:/lotes";
         }
+    }
+
+
+    @PostMapping("/{id}/baja")
+    public String darDeBaja(
+            @PathVariable Long id,
+            @RequestParam(required = false) Integer cantidad,
+            @RequestParam(required = false) MotivoBaja motivo,
+            @RequestParam(required = false) String observacion,
+            HttpSession session,
+            RedirectAttributes redirect
+    ) {
+
+        Usuario usuario = usuarioService.obtenerUsuarioSesion(session);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            Movimiento baja = bajaService.darDeBaja(usuario, id, cantidad, motivo, observacion);
+            redirect.addFlashAttribute(
+                "mensaje",
+                "Baja registrada: " + baja.getCantidad() + " unidades, pérdida de S/ " + baja.getMontoTotal()
+            );
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            redirect.addFlashAttribute("error", e.getMessage());
+        }
+
+        return "redirect:/lotes/" + id;
     }
 }

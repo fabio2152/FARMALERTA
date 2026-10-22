@@ -93,6 +93,65 @@
 
     </div>
 
+    <div
+        class="row g-3 mb-4"
+        th:if="${usuario.rol.name() == 'QUIMICO_FARMACEUTICO' and (lote.estado.name() == 'DISPONIBLE' or lote.estado.name() == 'BLOQUEADO')}"
+    >
+
+        <div class="col-lg-4">
+
+            <div class="card h-100 border-danger">
+
+                <div class="card-body">
+
+                    <h5>Dar de baja</h5>
+
+                    <form th:action="@{/lotes/{id}/baja(id=${lote.id})}" method="post">
+
+                        <div class="mb-2">
+                            <label class="form-label">Cantidad</label>
+                            <input
+                                type="number"
+                                min="1"
+                                class="form-control"
+                                name="cantidad"
+                                th:value="${lote.cantidadDisponible - lote.cantidadReservada}"
+                                required
+                            >
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Motivo</label>
+                            <select class="form-select" name="motivo" required>
+                                <option th:each="m : ${motivosBaja}" th:value="${m}" th:text="${m}"></option>
+                            </select>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label">Observación (obligatoria si el lote no está vencido)</label>
+                            <textarea class="form-control" name="observacion" rows="2"></textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                            onclick="return confirm('¿Confirma la baja? Esta acción no se puede deshacer.')"
+                        >
+                            Dar de baja
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- MAS_ACCIONES -->
+
+    </div>
+
     <!-- ACCIONES -->
 
     <h4>Movimientos</h4>

@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import pe.edu.empresa.farmalerta.model.EstadoLote;
 import pe.edu.empresa.farmalerta.model.Lote;
 import pe.edu.empresa.farmalerta.model.NivelAlerta;
+import pe.edu.empresa.farmalerta.model.Notificacion;
 import pe.edu.empresa.farmalerta.model.Rol;
 import pe.edu.empresa.farmalerta.model.Usuario;
 import pe.edu.empresa.farmalerta.service.AlertaService;
 import pe.edu.empresa.farmalerta.service.FechaService;
 import pe.edu.empresa.farmalerta.service.LoteService;
+import pe.edu.empresa.farmalerta.service.NotificacionService;
 import pe.edu.empresa.farmalerta.service.UsuarioService;
 
 
@@ -32,17 +34,21 @@ public class PanelController {
 
     private final FechaService fechaService;
 
+    private final NotificacionService notificacionService;
+
 
     public PanelController(
             UsuarioService usuarioService,
             LoteService loteService,
             AlertaService alertaService,
-            FechaService fechaService
+            FechaService fechaService,
+            NotificacionService notificacionService
     ) {
         this.usuarioService = usuarioService;
         this.loteService = loteService;
         this.alertaService = alertaService;
         this.fechaService = fechaService;
+        this.notificacionService = notificacionService;
     }
 
 
@@ -92,6 +98,9 @@ public class PanelController {
         model.addAttribute("niveles", niveles);
         model.addAttribute("dias", alertaService.diasRestantes(lotes));
         model.addAttribute("sucursales", usuarioService.sucursalesVisibles(usuario));
+
+        List<Notificacion> notificaciones = notificacionService.sinLeer(usuario);
+        model.addAttribute("notificaciones", notificaciones.size() > 10 ? notificaciones.subList(0, 10) : notificaciones);
 
         return "panel";
     }
